@@ -20,7 +20,6 @@ class studentai
         double vidurkis_=0;
         int mediana_=0;
         double gal_med_ = 0, gal_vid_=0;
-         //double gal_vid, gal_med;
     public:
         studentai() : egzam_(0) {} // default konstruktorius
         studentai(std::istream& is);

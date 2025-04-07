@@ -29,6 +29,38 @@ using std::sort;
 using std::list;
 using std::deque;
 
+//konstruktoriaus realizacija:
+studentai::studentai(std::istream& is) {
+    readStudent(is);
+}
+//studentai::gal_balas realizacija
+double studentai::gal_balas(double (*) (vector <double>)=mediana) const 
+{
+    if (pazymiai_.empty()) return 0;
+    return 0.4*mediana(pazymiai_) + 0.6*egzam_;
+}
+//studentai::readStudent realizacija
+std::istream& studentai::readStudent(std::istream& )
+{
+    // Member funkcijos realizacija paremta ankstesniojo 2-ojo darbo funkcija: 
+    // std::istream& readStudent(std::istream&, Studentas&)
+    pazymiai_.clear(); 
+    istream >> vardas_ >> pavarde_;
+    double paz;
+    while
+
+}
+  
+  // Ne Studentas member funkcija, bet dirba su Studentas objektais, todėl realizacija čia
+  bool compare(const Studentas&, const Studentas&) {
+    // realizacija 
+  }
+  
+  /* Realizacija likusių (member) funkcijų
+   .
+   .
+   .
+  */
 void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr_rikiavimas, int& n, int strategijos_nr)
 {
     vector <studentai> grupe;

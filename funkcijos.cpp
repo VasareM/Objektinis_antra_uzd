@@ -27,6 +27,37 @@ using std::ifstream;
 using std::ofstream;
 using std::sort;
 
+
+void nuskaitymas(const string& failo_pavadinimas, vector<studentai>& grupe, int &n) 
+{
+    std::ios::sync_with_stdio(false); // Optimize input speed
+    ifstream in;
+    try {
+        in.open(failo_pavadinimas);
+        if (!in.is_open()) {
+            throw std::runtime_error("Problema failo nuskaityme");
+        }
+    } 
+    catch (const std::exception& e) {
+        cout << e.what() << endl;
+        return;
+    }
+    string eilute;
+    n=-3;
+    if (getline(in, eilute)) {
+        std::istringstream ss(eilute);
+        n = std::distance(std::istream_iterator<std::string>(ss), std::istream_iterator<std::string>()) - 3;
+    }
+    while (getline(in, eilute)) 
+    {
+        std::istringstream iss(eilute);
+        studentai temp;
+        temp.readStudent(iss);
+        grupe.push_back(std::move(temp)); // to optimize vector insertion
+    }
+    in.close();
+}
+
 void vartotojo_pasirinkimas(int &nr_meniu, int a, int b)
 {
     while (true) 
@@ -87,21 +118,7 @@ void failo_generavimas(string failo_pavadinimas, int nr_failo_dydis, int paz_kie
         out << std::setw(10) << rand_pazymys() << std::endl;
     }
 }
-int mediana_skaiciavimas(vector <int> &pazymiai, studentai &temp)
-{
-    int n=temp.pazymiai.size(), med=0;
-    std::sort(temp.pazymiai.begin(), temp.pazymiai.end());
-    if (n%2==0)
-    {
-        med=((temp.pazymiai[n/2-1]+temp.pazymiai[n/2]))/2;
-    }
-    else 
-    {
-        med=temp.pazymiai[n/2];
-    }
-    temp.mediana = med;
-    return med;
-}
+
 string vardo_generavimas()
 {
     vector <string> vardu_sar={"Petras", "Jonas", "Aloyzas", "Kastytis", "Gintaras", "Tomas", "Augustas", "Dovydas", "Markas"};
@@ -120,24 +137,21 @@ void spausdinimas(vector <studentai> grupe)
     cout << string(85, '-') << endl;
     for (const auto&m:grupe) //visi elementai is eiles is grupes; const, kad nesikopijuot7
     {
-        cout << std::left << setw(25) << m.pavarde << setw(20) << m.vardas;
-        cout << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid << setw(20) << m.gal_med << endl;
+        cout << std::left << setw(25) << m.pavarde() << setw(20) << m.vardas();
+        cout << setw(20) << std::fixed << std::setprecision(2) << m.gal_balas_vidurkis() << setw(20) << m.gal_balas_mediana() << endl;
         //for(const auto&n:m.pazymiai) cout << " " ;
         //cout << endl;
     }
 }
-void spausdinimas_faile(vector <studentai> grupe, const string& outputo_pavadinimas)
-//template <typename Container>
-//void spausdinimas_faile(const Container& grupe, const string& outputo_pavadinimas)
+void spausdinimas_faile(vector<studentai> grupe, const string& outputo_pavadinimas)
 {
     ofstream out (outputo_pavadinimas);
     out << std::left << setw(25) << "Pavarde" << setw(20) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
     out << string(85, '-') << endl;
     for (const auto&m:grupe) //visi elementai is eiles is grupes; const, kad nesikopijuot7
     {
-        out << std::left << setw(25) << m.pavarde << setw(20) << m.vardas;
-        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid << setw(20) << m.gal_med << endl;
-        //for(const auto&n:m.pazymiai) cout << n << " "               //cout << endl;
+        out << std::left << setw(25) << m.pavarde() << setw(20) << m.vardas();
+        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_balas_vidurkis() << setw(20) << m.gal_balas_mediana() << endl;
     }
 }
 
@@ -164,11 +178,28 @@ void spausdinimo_parinkimas(std::vector<studentai> grupe, int nr_spausdinimas, i
     }
     else cout << "Nėra duomenų" << endl;
 }
+
+/*
 int sumos_skaiciavimas(vector <int> &pazymiai, studentai &temp)
 {
     int suma=0;
     suma=std::accumulate(temp.pazymiai.begin(), temp.pazymiai.end(), 0);
     return suma;
+}
+int mediana_skaiciavimas(vector <int> &pazymiai, studentai &temp)
+{
+    int n=temp.pazymiai.size(), med=0;
+    std::sort(temp.pazymiai.begin(), temp.pazymiai.end());
+    if (n%2==0)
+    {
+        med=((temp.pazymiai[n/2-1]+temp.pazymiai[n/2]))/2;
+    }
+    else 
+    {
+        med=temp.pazymiai[n/2];
+    }
+    temp.mediana = med;
+    return med;
 }
 double vidurkio_skaiciavimas(vector <int> &pazymiai, studentai &temp)
 {
@@ -188,47 +219,4 @@ double galutinis_med_sk(studentai &temp, int &mediana)
     gal_v=0.4*temp.mediana+0.6*temp.egzam;
     return gal_v;
 }
-
-void nuskaitymas(const string& failo_pavadinimas, vector<studentai>& grupe, int &n) 
-{
-    std::ios::sync_with_stdio(false); // Optimize input speed
-    ifstream in;
-    try {
-        in.open(failo_pavadinimas);
-        if (!in.is_open()) {
-            throw std::runtime_error("Problema failo nuskaityme");
-        }
-    } 
-    catch (const std::exception& e) {
-        cout << e.what() << endl;
-        return;
-    }
-    string eilute;
-    n=-3;
-    if (getline(in, eilute)) {
-        std::istringstream ss(eilute);
-        n = std::distance(std::istream_iterator<std::string>(ss), std::istream_iterator<std::string>()) - 3;
-    }
-    while (getline(in, eilute)) 
-    {
-        std::istringstream iss(eilute);
-        studentai temp;
-        temp.readStudent(iss);
-        grupe.push_back(std::move(temp)); // to optimize vector insertion
-    }
-    in.close();
-}
-void skaiciavimas(vector <studentai> &grupe, int n)
-//template <typename Container>
-//void skaiciavimas(Container& grupe, int n)
-{
-    for (auto& m:grupe)
-    {
-        m.suma=sumos_skaiciavimas(m.pazymiai, m);
-        m.vidurkis=vidurkio_skaiciavimas(m.pazymiai, m);
-        m.mediana=mediana_skaiciavimas(m.pazymiai, m);
-        m.gal_vid=galutinis_vid_sk(m, m.vidurkis);
-        m.gal_med=galutinis_med_sk(m, m.mediana);
-    }
-}
-
+*/

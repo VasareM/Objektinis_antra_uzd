@@ -33,14 +33,21 @@ using std::deque;
 studentai::studentai(std::istream& is) {
     readStudent(is);
 }
+
+// Getter for gal_vid
+
 //studentai::gal_balas realizacija
-double studentai::gal_balas_mediana(double (*) (vector <double>)=mediana) const 
+double studentai::gal_balas_mediana() const 
 {
     if (pazymiai_.empty()) return 0;
-    return 0.4*mediana(pazymiai_) + 0.6*egzam_;
+    return 0.4*mediana_skaiciavimas(pazymiai_) + 0.6*egzam_;
+}
+double studentai::gal_balas_vidurkis() const{
+    if (pazymiai_.empty()) return 0;
+    return 0.4*vidurkis(pazymiai_) + 0.6*egzam_;
 }
 //studentai::readStudent realizacija
-std::istream& studentai::readStudent(std::istream&)
+std::istream& studentai::readStudent(std::istream& is)
 {
     // Member funkcijos realizacija paremta ankstesniojo 2-ojo darbo funkcija: 
     // std::istream& readStudent(std::istream&, Studentas&)
@@ -59,7 +66,7 @@ std::istream& studentai::readStudent(std::istream&)
     }
     return is;
 }
-double mediana(const vector<double>& pazymiai_) 
+double mediana_skaiciavimas(const vector<double>& pazymiai_) 
 {
     if (pazymiai_.empty()) return 0;
     vector<double> temp = pazymiai_;
@@ -74,7 +81,7 @@ double mediana(const vector<double>& pazymiai_)
         return temp[size/2];
     }
 }
-double vidurkis(const vector<double>& pazymiai_)
+double vidurkis_skaiciavimas(const vector<double>& pazymiai_)
 {
     if (pazymiai_.empty()) return 0;
     double suma=0;
@@ -84,23 +91,33 @@ double vidurkis(const vector<double>& pazymiai_)
     }
     return suma/pazymiai_.size();
 }
-  
-  // Ne Studentas member funkcija, bet dirba su Studentas objektais, todėl realizacija čia
-bool compare(const Studentas&, const Studentas&) {
-    // realizacija 
+void skaiciavimas(vector <studentai>& grupe, int n)
+{
+    for (auto& m:grupe)
+    {
+        m.setSuma(std::accumulate(m.pazymiai().begin(), m.pazymiai().end(), 0.0));
+        m.setVidurkis(vidurkis_skaiciavimas(m.pazymiai()));
+        m.setMediana(mediana_skaiciavimas(m.pazymiai()));
+        m.setGalVid(0.4 * m.vidurkis() + 0.6 * m.egzam());
+        m.setGalMed(0.4 * m.mediana() + 0.6 * m.egzam());
+    }
 }
   
-  /* Realizacija likusių (member) funkcijų
-   .
-   .
-   .
-  */
+  // Ne Studentas member funkcija, bet dirba su Studentas objektais, todėl realizacija čia
+
+bool comparePagalPavarde(const studentai& a, const studentai& b) {
+    return a.pavarde() < b.pavarde(); // Use the getter method for pavarde_
+}
+bool comparePagalEgza(const studentai& a, const studentai& b) {
+    return a.egzam() < b.egzam();
+}
+
+
 void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr_rikiavimas, int& n, int strategijos_nr)
 {
     vector <studentai> grupe;
     auto failo_nuskaitymo_pradzia=std::chrono::high_resolution_clock::now();
     nuskaitymas(failo_pavadinimas, grupe, n);
-    auto failo_nuskaitymo_pabaiga = std::chrono::high_resolution_clock::now();
     auto failo_nuskaitymo_trukme = std::chrono::duration_cast<std::chrono::seconds>(failo_nuskaitymo_pabaiga - failo_nuskaitymo_pradzia);
     cout << "Failo iš " << nr_failo_dydis << " įrašų nuskaitymo laikas: " << std::fixed << std::setprecision(5) << failo_nuskaitymo_trukme.count() << "s" << endl;
     ///
@@ -252,9 +269,6 @@ void list_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_r
     if (strategijos_nr==3)
     {
         auto failo3_sort_pradzia=std::chrono::high_resolution_clock::now();
-        /*grupe.sort([&](const studentai& a, const studentai& b) {
-            return maziau_listui(a, b, nr_rikiavimas);
-        });*/
         auto perskyrimas = std::stable_partition(grupe.begin(), grupe.end(), [&](const studentai& s) {
             return (nr_rikiavimas == 3 && s.gal_vid < 5) || (nr_rikiavimas == 4 && s.gal_med < 5);
         });
@@ -459,7 +473,6 @@ void deque_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_
     cout << endl << endl;
 }
 
-
 int main()
 {
     try {
@@ -620,54 +633,7 @@ int main()
             {
                 studentai temp;
                 cout << "Įveskite studento vardą ir pavardę" << endl;
-                cin >> temp.vardas >> temp.pavarde;
-                while (temp.vardas.size()>19 || temp.pavarde.size()>19)
-                {
-                    cout << "Vardas arba pavardė per ilgi" << endl;
-                    cout << "Įveskite studento vardą ir pavardę" << endl;
-                    cin >> temp.vardas >> temp.pavarde;
-                }
-                cout << "Įveskite studento namų darbų kiekį (nuo 1 iki 15)" << endl;
-                cin >> n;
-                vartotojo_pasirinkimas(n, 1, 15);
-                /*
-                while (ar_beda(n, 1, 15))
-                {
-                    cout << "Įveskite studento namų darbų kiekį (nuo 1 iki 15)" << endl;
-                    cin >> n;
-                }
-                    */
-                cout << "Įveskite studento namų darbų pažymius (nuo 0 iki 10)" << endl;
-                for (int y=0; y<n; y++)
-                {
-                    cin >> paz;
-                    vartotojo_pasirinkimas(paz, 0, 10);
-                    /*
-                    while (ar_beda(paz, 0, 10))
-                    {
-                        cout << "Įveskite studento namų darbų pažymius (nuo 0 iki 10)" << endl;
-                        cin >> paz;
-                    }
-                        */
-                    temp.suma+=paz;
-                    temp.pazymiai.push_back(paz); //prideda paz elementa i vektoriaus pazymiai gala
-                }
-                temp.vidurkis=temp.suma/n;
-                
-                temp.mediana=mediana_skaiciavimas(temp.pazymiai, temp);
-
-                cout << "Įveskite studento egzamino rezultatą (nuo 0 iki 10)" << endl;
-                cin >> temp.egzam;
-                vartotojo_pasirinkimas(temp.egzam, 0, 10);
-                /*
-                while (ar_beda(temp.egzam, 0, 10))
-                {
-                    cout << "Įveskite studento egzamino rezultatą (nuo 0 iki 10)" << endl;
-                    cin >> temp.egzam;
-                }
-                    */
-                temp.gal_vid=0.4*temp.vidurkis+0.6*temp.egzam;
-                temp.gal_med=0.4*temp.mediana+0.6*temp.egzam;
+                temp.readStudent(cin); // Use class method
                 grupe.push_back(temp);
                 m++;
                 cout << "Ar norite įvesti naujo studento duomenis? (T/n)" << endl;
@@ -758,7 +724,7 @@ int main()
 
                 temp.egzam=rand_pazymys();
                 temp.gal_vid=0.4*temp.vidurkis+0.6*temp.egzam;
-                temp.gal_med=0.4*temp.mediana+0.6*temp.egzam;
+                temp.gal_med=0.4*temp.mediana+0.6*temp.egzam_;
                 grupe.push_back(temp);
                 m++;
                 cout << "Ar norite įvesti naujo studento duomenis? (T/n)" << endl;

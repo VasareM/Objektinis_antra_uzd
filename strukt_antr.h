@@ -33,7 +33,11 @@ class studentai
         studentai(std::istream& is);
         inline string vardas() const {return vardas_;} //get'eriai, inline
         inline string pavarde() const {return pavarde_;} //get'eriai, inline
-        double gal_balas(double (*) (vector<double>)=mediana) const; // get'eriai
+        double gal_balas_mediana(double (*) (vector<double>)=mediana) const; // get'eriai
+        double gal_balas_vidurkis(double (*) (vector<double>)=vidurkis) const{
+            if (pazymiai_.empty()) return 0;
+            return 0.4*vidurkis(pazymiai_) + 0.6*egzam_;
+        }
         std::istream& readStudent(std::istream&); //set'eriai
 };
 bool compare(const studentai&, const studentai&);

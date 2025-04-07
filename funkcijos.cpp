@@ -190,8 +190,6 @@ double galutinis_med_sk(studentai &temp, int &mediana)
 }
 
 void nuskaitymas(const string& failo_pavadinimas, vector<studentai>& grupe, int &n) 
-//template <typename Container>
-//void nuskaitymas(const string& failo_pavadinimas, Container& grupe, int &n) 
 {
     std::ios::sync_with_stdio(false); // Optimize input speed
     ifstream in;
@@ -200,13 +198,13 @@ void nuskaitymas(const string& failo_pavadinimas, vector<studentai>& grupe, int 
         if (!in.is_open()) {
             throw std::runtime_error("Problema failo nuskaityme");
         }
-    } catch (const std::exception& e) {
+    } 
+    catch (const std::exception& e) {
         cout << e.what() << endl;
         return;
     }
     string eilute;
-
-    n=-3; // 3 - vardas, pavarde, egzamino pazymys
+    n=-3;
     if (getline(in, eilute)) {
         std::istringstream ss(eilute);
         n = std::distance(std::istream_iterator<std::string>(ss), std::istream_iterator<std::string>()) - 3;
@@ -215,15 +213,7 @@ void nuskaitymas(const string& failo_pavadinimas, vector<studentai>& grupe, int 
     {
         std::istringstream iss(eilute);
         studentai temp;
-        iss >> temp.vardas >> temp.pavarde;
-
-        temp.pazymiai.assign(std::istream_iterator<int>(iss), std::istream_iterator<int>());
-        if (!temp.pazymiai.empty()) {
-            temp.egzam = temp.pazymiai.back();
-            temp.pazymiai.pop_back(); // Remove from the vector
-        } else {
-            temp.egzam = 0; // Default to 0 if no grades are found
-        }
+        temp.readStudent(iss);
         grupe.push_back(std::move(temp)); // to optimize vector insertion
     }
     in.close();

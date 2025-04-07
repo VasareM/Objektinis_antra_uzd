@@ -34,27 +34,61 @@ studentai::studentai(std::istream& is) {
     readStudent(is);
 }
 //studentai::gal_balas realizacija
-double studentai::gal_balas(double (*) (vector <double>)=mediana) const 
+double studentai::gal_balas_mediana(double (*) (vector <double>)=mediana) const 
 {
     if (pazymiai_.empty()) return 0;
     return 0.4*mediana(pazymiai_) + 0.6*egzam_;
 }
 //studentai::readStudent realizacija
-std::istream& studentai::readStudent(std::istream& )
+std::istream& studentai::readStudent(std::istream&)
 {
     // Member funkcijos realizacija paremta ankstesniojo 2-ojo darbo funkcija: 
     // std::istream& readStudent(std::istream&, Studentas&)
     pazymiai_.clear(); 
-    istream >> vardas_ >> pavarde_;
-    double paz;
-    while
+    is >> vardas_ >> pavarde_;
 
+    pazymiai_.assign(std::istream_iterator<int>(is), std::istream_iterator<int>());
+    if (!pazymiai_.empty()) 
+    {
+        egzam_=pazymiai_.back();
+        pazymiai_.pop_back();
+    }
+    else
+    {
+        egzam_=0;
+    }
+    return is;
+}
+double mediana(const vector<double>& pazymiai_) 
+{
+    if (pazymiai_.empty()) return 0;
+    vector<double> temp = pazymiai_;
+    std::sort(temp.begin(), temp.end());
+    size_t size=temp.size();
+    if (size%2==0)
+    {
+        return (temp[size/2-1]+temp[size/2])/2;
+    }
+    else 
+    {
+        return temp[size/2];
+    }
+}
+double vidurkis(const vector<double>& pazymiai_)
+{
+    if (pazymiai_.empty()) return 0;
+    double suma=0;
+    for (const auto& pazymys : pazymiai_)
+    {
+        suma += pazymys;
+    }
+    return suma/pazymiai_.size();
 }
   
   // Ne Studentas member funkcija, bet dirba su Studentas objektais, todėl realizacija čia
-  bool compare(const Studentas&, const Studentas&) {
+bool compare(const Studentas&, const Studentas&) {
     // realizacija 
-  }
+}
   
   /* Realizacija likusių (member) funkcijų
    .

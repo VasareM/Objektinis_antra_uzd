@@ -23,17 +23,28 @@ class studentai
     public:
         studentai() : egzam_(0) {} // default konstruktorius
         studentai(std::istream& is);
+        //who dis?
+
+        //get'eriai:
         inline string vardas() const {return vardas_;} //get'eriai, inline
         inline string pavarde() const {return pavarde_;} //get'eriai, inline
         inline double egzam() const { return egzam_; }
         inline const vector<double>& pazymiai() const { return pazymiai_; }
         inline double vidurkis() const { return vidurkis_; }
         inline int mediana() const { return mediana_; }
-        inline double gal_med() const { return gal_med_; }
+        inline double gal_med() const { return gal_med_; } // o čia ne dvi gal med?
+        //-->
         double gal_balas_mediana() const; // get'eriai
-        double gal_balas_vidurkis() const;
-        std::istream& readStudent(std::istream&); //set'eriai
+        double gal_balas_vidurkis() const; 
+            // pridėt return reikšmę
 
+        //set'eriai:
+        std::istream& readStudent(std::istream&); //set'eriai
+        void setVardas(string vardas) {vardas_ = vardas;}
+        void setPavarde(string pavarde) {pavarde_ = pavarde;}
+        void setEgzam(double egzam) {egzam_ = egzam;}
+        void setPazymiai(const vector<double>& pazymiai) {pazymiai_ = pazymiai;}
+        
         void setSuma(double suma) {suma_ = suma;}
         void setVidurkis(double vidurkis) {vidurkis_ = vidurkis;}
         void setMediana(int mediana) {mediana_ = mediana;}

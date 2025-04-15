@@ -138,7 +138,7 @@ void spausdinimas(vector <studentai> grupe)
     for (const auto&m:grupe) //visi elementai is eiles is grupes; const, kad nesikopijuot7
     {
         cout << std::left << setw(25) << m.pavarde() << setw(20) << m.vardas();
-        cout << setw(20) << std::fixed << std::setprecision(2) << m.gal_balas_vidurkis() << setw(20) << m.gal_balas_mediana() << endl;
+        cout << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid() << setw(20) << m.gal_med() << endl;
         //for(const auto&n:m.pazymiai) cout << " " ;
         //cout << endl;
     }
@@ -151,16 +151,16 @@ void spausdinimas_faile(vector<studentai> grupe, const string& outputo_pavadinim
     for (const auto&m:grupe) //visi elementai is eiles is grupes; const, kad nesikopijuot7
     {
         out << std::left << setw(25) << m.pavarde() << setw(20) << m.vardas();
-        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_balas_vidurkis() << setw(20) << m.gal_balas_mediana() << endl;
+        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid() << setw(20) << m.gal_med() << endl;
     }
 }
 
 void rikiavimas(int nr_rikiavimas, vector <studentai> &grupe)
 {
-    if (nr_rikiavimas==1) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.vardas<b.vardas;});
-    else if (nr_rikiavimas==2) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.pavarde<b.pavarde;});
-    else if (nr_rikiavimas==3) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.gal_vid<b.gal_vid;});
-    else if (nr_rikiavimas==4) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.gal_med<b.gal_med;});
+    if (nr_rikiavimas==1) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.vardas()<b.vardas();});
+    else if (nr_rikiavimas==2) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.pavarde()<b.pavarde();});
+    else if (nr_rikiavimas==3) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.gal_vid()<b.gal_vid();});
+    else if (nr_rikiavimas==4) sort(grupe.begin(),grupe.end(), [](studentai a, studentai b) {return a.gal_med()<b.gal_med();});
     else 
     {
         cout << "Tokio rikiavimo būdo nėra" << endl;

@@ -36,6 +36,7 @@ studentai::studentai(std::istream& is) {
 
 // Getter for gal_vid
 
+
 //studentai::gal_balas realizacija
 double studentai::gal_med() const 
 {
@@ -233,24 +234,12 @@ void nuskaitymas_list(const string& failo_pavadinimas, list <studentai>& grupe, 
         std::istringstream ss(eilute);
         n = std::distance(std::istream_iterator<std::string>(ss), std::istream_iterator<std::string>()) - 3;
     }
+    
     while (getline(in, eilute)) 
     {
         std::istringstream iss(eilute);
-        string vardas, pavarde;
-        iss >> vardas >> pavarde;
-        temp.setVardas(vardas);
-        temp.setPavarde(pavarde);
-
-        temp.setPazymiai(std::istream_iterator<int>(iss), std::istream_iterator<int>());
-        if (!temp.pazymiai().empty()) {
-            temp.setEgzam(temp.pazymiai().back());
-            auto tempPazymiai=temp.pazymiai(); //deklaracija
-            tempPazymiai.pop_back(); // Remove from the vector
-            temp.setPazymiai(tempPazymiai);
-        } 
-        else {
-            temp.setEgzam(0); // Default to 0 if no grades are found
-        }
+        studentai temp;
+        temp.readStudent(iss);
         grupe.push_back(std::move(temp)); // to optimize vector insertion
     }
     in.close();
@@ -259,11 +248,11 @@ void skaiciavimas_list(list <studentai> &grupe, int n)
 {
     for (auto& m:grupe)
     {
-        m.suma=sumos_skaiciavimas(m.pazymiai, m);
-        m.vidurkis=vidurkio_skaiciavimas(m.pazymiai, m);
-        m.mediana=mediana_skaiciavimas(m.pazymiai, m);
-        m.gal_vid=galutinis_vid_sk(m, m.vidurkis);
-        m.gal_med=galutinis_med_sk(m, m.mediana);
+        m.setSuma(std::accumulate(m.pazymiai().begin(), m.pazymiai().end(), 0.0));
+        m.setVidurkis(m.vidurkis());
+        m.setMediana(m.mediana());
+        m.setGalVid(m.gal_vid());
+        m.setGalMed(m.gal_med());
     }
 }
 bool maziau_listui(const studentai& a, const studentai& b, int nr_rikiavimas)
@@ -387,20 +376,8 @@ void nuskaitymas_deque(const string& failo_pavadinimas, deque <studentai>& grupe
     while (getline(in, eilute)) 
     {
         std::istringstream iss(eilute);
-        string vardas, pavarde;
-        iss >> vardas >> pavarde;
-        temp.setVardas(vardas);
-        temp.setPavarde(pavarde);
-
-        temp.setPazymiai(std::istream_iterator<int>(iss), std::istream_iterator<int>());
-        if (!temp.pazymiai().empty()) {
-            temp.setEgzam(temp.pazymiai().back());
-            auto tempPazymiai=temp.pazymiai(); //deklaracija
-            tempPazymiai.pop_back(); // Remove from the vector
-            temp.setPazymiai(tempPazymiai);
-        } else {
-            temp.setEgzam(0); // Default to 0 if no grades are found
-        }
+        studentai temp;
+        temp.readStudent(iss);
         grupe.push_back(std::move(temp)); // to optimize vector insertion
     }
     in.close();
@@ -409,11 +386,11 @@ void skaiciavimas_deque(deque <studentai> &grupe, int n)
 {
     for (auto& m:grupe)
     {
-        m.suma=sumos_skaiciavimas(m.pazymiai, m);
-        m.vidurkis=vidurkio_skaiciavimas(m.pazymiai, m);
-        m.mediana=mediana_skaiciavimas(m.pazymiai, m);
-        m.gal_vid()=galutinis_vid_sk(m, m.vidurkis);
-        m.gal_med()=galutinis_med_sk(m, m.mediana);
+        m.setSuma(std::accumulate(m.pazymiai().begin(), m.pazymiai().end(), 0.0));
+        m.setVidurkis(m.vidurkis());
+        m.setMediana(m.mediana());
+        m.setGalVid(m.gal_vid());
+        m.setGalMed(m.gal_med());
     }
 }
 void spausdinimas_faile_deque(deque <studentai> grupe, const string& outputo_pavadinimas, int nr_rikiavimas)
@@ -716,12 +693,10 @@ int main()
                 {
                     paz=rand_pazymys();
                     temp.setSuma(temp.suma()+paz);
-                    temp.pazymiai().push_back(paz);
+                    temp.addPazymys(paz);
                 }
-                temp.vidurkis=temp.suma/n;
-                
-                temp.mediana=mediana_skaiciavimas(temp.pazymiai, temp);
-
+                temp.setVidurkis(temp.vidurkis());
+                temp.setMediana(temp.mediana());
                 temp.setEgzam(rand_pazymys());
                 /*
                 temp.setGalVid(0.4 * temp.vidurkis() + 0.6 * temp.egzam()); 
@@ -758,12 +733,10 @@ int main()
                 {
                     paz=rand_pazymys();
                     temp.setSuma(temp.suma()+paz);
-                    temp.pazymiai().push_back(paz);
+                    temp.addPazymys(paz);
                 }
-                temp.setVidurkis(temp.suma()/n);
-                
-                temp.mediana=mediana_skaiciavimas(temp.pazymiai, temp);
-
+                temp.setVidurkis(temp.vidurkis());
+                temp.setMediana(temp.mediana());
                 temp.setEgzam(rand_pazymys());
                 /*
                 temp.setGalVid(0.4 * temp.vidurkis() + 0.6 * temp.egzam()); 

@@ -49,6 +49,7 @@ class studentai
         void setGalMed(double gal_med) {gal_med_ = gal_med;}
         void setGalVid(double gal_vid) {gal_vid_ = gal_vid;}
 
+        void addPazymys(double pazymys) {pazymiai_.push_back(pazymys);}
 };
 
 // šitus iškelt:

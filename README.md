@@ -44,9 +44,9 @@ programą galima paleisti dviem būdais
    
 4. naudojant **cmake** failą
 
-   ***į terminalą reikia įrašyti (jei kompiliuojama nauja programa):***
+   ***į terminalą reikia įrašyti (jei jau buvo sukurtas build aplankas):***
    
-   rm -r build  *(jei jau turimas build aplankas, nerašyti jei kompiliuojama pirmą kartą)*
+   rm -r build
 
    mkdir build
 
@@ -54,7 +54,9 @@ programą galima paleisti dviem būdais
 
    cmake ..
 
-   cmake --build . *(kompiliuoja)*
-   cd Debug   *(be jo po pertraukos neveikė)*
-   .\Objektinis.exe *(paleidžia programą)*
+   cmake --build .
+
+   cd debug
+
+   .\Objektinis.exe
    

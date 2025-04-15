@@ -118,6 +118,7 @@ void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr
     vector <studentai> grupe;
     auto failo_nuskaitymo_pradzia=std::chrono::high_resolution_clock::now();
     nuskaitymas(failo_pavadinimas, grupe, n);
+    auto failo_nuskaitymo_pabaiga = std::chrono::high_resolution_clock::now();
     auto failo_nuskaitymo_trukme = std::chrono::duration_cast<std::chrono::seconds>(failo_nuskaitymo_pabaiga - failo_nuskaitymo_pradzia);
     cout << "Failo iš " << nr_failo_dydis << " įrašų nuskaitymo laikas: " << std::fixed << std::setprecision(5) << failo_nuskaitymo_trukme.count() << "s" << endl;
     ///

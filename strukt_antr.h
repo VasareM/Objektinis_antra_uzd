@@ -25,18 +25,16 @@ class studentai
         studentai(std::istream& is);
         //who dis?
 
-        //get'eriai:
-        inline string vardas() const {return vardas_;} //get'eriai, inline
-        inline string pavarde() const {return pavarde_;} //get'eriai, inline
+        //get'eriai, inline:
+        inline string vardas() const {return vardas_;}
+        inline string pavarde() const {return pavarde_;}
         inline double egzam() const { return egzam_; }
         inline const vector<double>& pazymiai() const { return pazymiai_; }
+        inline double suma() const {return suma_;}
         inline double vidurkis() const { return vidurkis_; }
         inline int mediana() const { return mediana_; }
-        inline double gal_med() const { return gal_med_; } // o čia ne dvi gal med?
-        //-->
-        double gal_balas_mediana() const; // get'eriai
-        double gal_balas_vidurkis() const; 
-            // pridėt return reikšmę
+        inline double gal_med() const { return gal_med_; }
+        inline double gal_vid() const { return gal_vid_; }
 
         //set'eriai:
         std::istream& readStudent(std::istream&); //set'eriai
@@ -48,8 +46,8 @@ class studentai
         void setSuma(double suma) {suma_ = suma;}
         void setVidurkis(double vidurkis) {vidurkis_ = vidurkis;}
         void setMediana(int mediana) {mediana_ = mediana;}
+        void setGalMed(double gal_med) {gal_med_ = gal_med;}
         void setGalVid(double gal_vid) {gal_vid_ = gal_vid;}
-        void setGalMed(double gal_med) {gal_med_ = gal_med;} // Correctly assign to gal_med_
 
 };
 

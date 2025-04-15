@@ -31,10 +31,10 @@ class studentai
         inline double egzam() const { return egzam_; }
         inline const vector<double>& pazymiai() const { return pazymiai_; }
         inline double suma() const {return suma_;}
-        inline double vidurkis() const { return vidurkis_; }
-        inline int mediana() const { return mediana_; }
-        inline double gal_med() const { return gal_med_; }
-        inline double gal_vid() const { return gal_vid_; }
+        inline double vidurkis() const;
+        inline int mediana() const;
+        double gal_med() const;
+        double gal_vid() const;
 
         //set'eriai:
         std::istream& readStudent(std::istream&); //set'eriai

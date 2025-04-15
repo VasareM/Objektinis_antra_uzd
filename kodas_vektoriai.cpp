@@ -129,15 +129,15 @@ void skaiciavimas(vector <studentai>& grupe, int n)
     }
 }
   
-  // Ne Studentas member funkcija, bet dirba su Studentas objektais, todėl realizacija čia
-
-bool comparePagalPavarde(const studentai& a, const studentai& b) {
-    return a.pavarde() < b.pavarde(); // Use the getter method for pavarde_
+// Ne Studentas member funkcija, bet dirba su Studentas objektais, todėl realizacija čia
+/*
+bool comparePagalVid(const studentai& a, const studentai& b) {
+    return a.gal_vid() < b.gal_vid();
 }
-bool comparePagalEgza(const studentai& a, const studentai& b) {
-    return a.egzam() < b.egzam();
+bool comparePagalMed(const studentai& a, const studentai& b) {
+    return a.gal_med() < b.gal_med();
 }
-
+*/
 
 void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr_rikiavimas, int& n, int strategijos_nr)
 {
@@ -153,6 +153,7 @@ void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr
     if (strategijos_nr==3)
     {
         auto failo3_sort_pradzia=std::chrono::high_resolution_clock::now();
+        rikiavimas(nr_rikiavimas, grupe);
         auto perskyrimas = std::stable_partition(grupe.begin(), grupe.end(), [&](const studentai& s) {
             return (nr_rikiavimas == 3 && s.gal_vid() < 5) || (nr_rikiavimas == 4 && s.gal_med() < 5);
         });
@@ -541,7 +542,7 @@ int main()
             string failo_pavadinimas;
             ///////////////
             /////////
-            int kiek_failu=5;
+            int kiek_failu=2;
             /////////
             ///////////////
             for (int i=0; i<kiek_failu; i++)

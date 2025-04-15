@@ -4,25 +4,16 @@
 | i5-1240P 1.70 GHz | 16 GB | SSD 512 GB  |
 
 
-
---> Palyginkite abiejų Jūsų programų: naudojančios struct iš ankstesniojo darbo ir naudojančio class tipo Studentus iš dabartinės realizacijos spartą (veikimo laiką), naudojant vieną fiksuotą konteinerį, pvz. vektorių, pačią greičiausią dalijimo strategiją ir 100000 ir 1000000 dydžio failus. Gautus rezultatus aprašykite README.md faile.
-
 Atlikite eksperimentinę analizę priklausomai nuo kompiliatoriaus optimizavimo lygio, nurodomo per flag'us: O1, O2, O3 ir papildykite README.md failą gautais rezultatais su optimizavimo flag'ais.
 
+### Tyrimas: lyginama struct (ankstesnė) ir class (dabartinė) realizacijų sparta
 
-
-
-### Tyrimo rezultatai: *testuojami anksčiau sugeneruoti failai*
+#### Tyrimo rezultatai: *testuojami anksčiau sugeneruoti failai*
 Legenda:
 - melsvai paryškintas testuojamo failo įrašų kiekis
 
-#### Testuojami paeiliui su 100000, 1000000 eilučių failais, trijuose skirtinguose konteineriuose, trimis skirtingomis strategijomis
-1 strategija: Bendro studentai konteinerio skaidymas į du naujus to paties tipo konteinerius;
-
-2 strategija: Bendro studentų konteinerio skaidymas panaudojant tik vieną naują konteinerį (kiti šalinami iš bendro);
-
-3 strategija: Bendro studentų konteinerio skaidymas panaudojant greičiausiai veikiančią (1 strategiją), į ją  įtraukiant į ją „efektyvius“ darbo su konteineriais metodus.
-![Image](https://github.com/user-attachments/assets/b7fafe09-36fe-4d07-957d-9479f319d84b)
+#### Testuojami paeiliui su 100000, 1000000 eilučių failais, vector konteineris, greičiausia (III) dalijimo strategija
+![Image](https://github.com/user-attachments/assets/e70551f9-c0cd-4d50-b929-c8127ed66096)
 
 ### Instrukcija
 programą galima paleisti dviem būdais

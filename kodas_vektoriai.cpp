@@ -542,7 +542,7 @@ int main()
             string failo_pavadinimas;
             ///////////////
             /////////
-            int kiek_failu=2;
+            int kiek_failu=5;
             /////////
             ///////////////
             for (int i=0; i<kiek_failu; i++)

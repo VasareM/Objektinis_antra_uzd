@@ -37,14 +37,37 @@ studentai::studentai(std::istream& is) {
 // Getter for gal_vid
 
 //studentai::gal_balas realizacija
-double studentai::gal_balas_mediana() const 
+double studentai::gal_med() const 
 {
     if (pazymiai_.empty()) return 0;
-    return 0.4*mediana_skaiciavimas(pazymiai_) + 0.6*egzam_;
+    return 0.4*mediana() + 0.6*egzam_;
 }
-double studentai::gal_balas_vidurkis() const{
+double studentai::gal_vid() const{
     if (pazymiai_.empty()) return 0;
-    return 0.4*vidurkis(pazymiai_) + 0.6*egzam_;
+    return 0.4*vidurkis() + 0.6*egzam_;
+}
+int studentai::mediana() const {
+    if (pazymiai_.empty()) return 0;
+    vector<double> temp = pazymiai_;
+    std::sort(temp.begin(), temp.end());
+    size_t size = temp.size();
+    if (size%2==0)
+    {
+        return (temp[size/2-1]+temp[size/2])/2;
+    }
+    else 
+    {
+        return temp[size/2];
+    }
+}
+double studentai::vidurkis() const {
+    if (pazymiai_.empty()) return 0;
+    double suma = 0;
+    for (const auto& pazymys : pazymiai_)
+    {
+        suma += pazymys;
+    }
+    return suma/pazymiai_.size();
 }
 //studentai::readStudent realizacija
 std::istream& studentai::readStudent(std::istream& is)
@@ -66,6 +89,7 @@ std::istream& studentai::readStudent(std::istream& is)
     }
     return is;
 }
+/*
 double mediana_skaiciavimas(const vector<double>& pazymiai_) 
 {
     if (pazymiai_.empty()) return 0;
@@ -91,15 +115,16 @@ double vidurkis_skaiciavimas(const vector<double>& pazymiai_)
     }
     return suma/pazymiai_.size();
 }
+*/
 void skaiciavimas(vector <studentai>& grupe, int n)
 {
     for (auto& m:grupe)
     {
         m.setSuma(std::accumulate(m.pazymiai().begin(), m.pazymiai().end(), 0.0));
-        m.setVidurkis(vidurkis_skaiciavimas(m.pazymiai()));
-        m.setMediana(mediana_skaiciavimas(m.pazymiai()));
-        m.setGalVid(0.4 * m.vidurkis() + 0.6 * m.egzam());
-        m.setGalMed(0.4 * m.mediana() + 0.6 * m.egzam());
+        m.setVidurkis(m.vidurkis());
+        m.setMediana(m.mediana());
+        m.setGalVid(m.gal_vid());
+        m.setGalMed(m.gal_med());
     }
 }
   
@@ -128,7 +153,7 @@ void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr
     {
         auto failo3_sort_pradzia=std::chrono::high_resolution_clock::now();
         auto perskyrimas = std::stable_partition(grupe.begin(), grupe.end(), [&](const studentai& s) {
-            return (nr_rikiavimas == 3 && s.gal_vid < 5) || (nr_rikiavimas == 4 && s.gal_med < 5);
+            return (nr_rikiavimas == 3 && s.gal_vid() < 5) || (nr_rikiavimas == 4 && s.gal_med() < 5);
         });
         auto failo3_sort_pabaiga = std::chrono::high_resolution_clock::now();
         auto failo3_sort_trukme = std::chrono::duration_cast<std::chrono::duration<double>>(failo3_sort_pabaiga - failo3_sort_pradzia);
@@ -155,7 +180,7 @@ void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr
         {
             for (int i=0; i<grupe.size(); i++)
             {
-                if (nr_rikiavimas==3 && grupe[i].gal_vid<5 || nr_rikiavimas==4 && grupe[i].gal_med<5) nelaimingi.push_back(grupe[i]);
+                if (nr_rikiavimas==3 && grupe[i].gal_vid()<5 || nr_rikiavimas==4 && grupe[i].gal_med()<5) nelaimingi.push_back(grupe[i]);
                 else galvociai.push_back(grupe[i]);
             }
         }
@@ -163,7 +188,7 @@ void septintas_meniu(const string& failo_pavadinimas, int nr_failo_dydis, int nr
         {
             auto it = grupe.begin();
             while (it != grupe.end() &&
-                ((nr_rikiavimas == 3 && it->gal_vid < 5) || (nr_rikiavimas == 4 && it->gal_med < 5)))
+                ((nr_rikiavimas == 3 && it->gal_vid() < 5) || (nr_rikiavimas == 4 && it->gal_med() < 5)))
             {
                 ++it;
             }
@@ -211,15 +236,20 @@ void nuskaitymas_list(const string& failo_pavadinimas, list <studentai>& grupe, 
     while (getline(in, eilute)) 
     {
         std::istringstream iss(eilute);
-        studentai temp;
-        iss >> temp.vardas >> temp.pavarde;
+        string vardas, pavarde;
+        iss >> vardas >> pavarde;
+        temp.setVardas(vardas);
+        temp.setPavarde(pavarde);
 
-        temp.pazymiai.assign(std::istream_iterator<int>(iss), std::istream_iterator<int>());
-        if (!temp.pazymiai.empty()) {
-            temp.egzam = temp.pazymiai.back();
-            temp.pazymiai.pop_back(); // Remove from the vector
-        } else {
-            temp.egzam = 0; // Default to 0 if no grades are found
+        temp.setPazymiai(std::istream_iterator<int>(iss), std::istream_iterator<int>());
+        if (!temp.pazymiai().empty()) {
+            temp.setEgzam(temp.pazymiai().back());
+            auto tempPazymiai=temp.pazymiai(); //deklaracija
+            tempPazymiai.pop_back(); // Remove from the vector
+            temp.setPazymiai(tempPazymiai);
+        } 
+        else {
+            temp.setEgzam(0); // Default to 0 if no grades are found
         }
         grupe.push_back(std::move(temp)); // to optimize vector insertion
     }
@@ -238,8 +268,8 @@ void skaiciavimas_list(list <studentai> &grupe, int n)
 }
 bool maziau_listui(const studentai& a, const studentai& b, int nr_rikiavimas)
 {
-    if (nr_rikiavimas==3) return a.gal_vid<b.gal_vid;
-    else if (nr_rikiavimas==4) return a.gal_med<b.gal_med;
+    if (nr_rikiavimas==3) return a.gal_vid()<b.gal_vid();
+    else if (nr_rikiavimas==4) return a.gal_med()<b.gal_med();
     else return false;
 }
 void spausdinimas_faile_list(list <studentai> grupe, const string& outputo_pavadinimas, int nr_rikiavimas)
@@ -252,8 +282,8 @@ void spausdinimas_faile_list(list <studentai> grupe, const string& outputo_pavad
     });
     for (const auto&m:grupe) //visi elementai is eiles is grupes; const, kad nesikopijuot7
     {
-        out << std::left << setw(25) << m.pavarde << setw(20) << m.vardas;
-        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid << setw(20) << m.gal_med << endl;
+        out << std::left << setw(25) << m.pavarde() << setw(20) << m.vardas();
+        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid() << setw(20) << m.gal_med() << endl;
         //for(const auto&n:m.pazymiai) cout << n << " "               //cout << endl;
     }
 }
@@ -271,7 +301,7 @@ void list_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_r
     {
         auto failo3_sort_pradzia=std::chrono::high_resolution_clock::now();
         auto perskyrimas = std::stable_partition(grupe.begin(), grupe.end(), [&](const studentai& s) {
-            return (nr_rikiavimas == 3 && s.gal_vid < 5) || (nr_rikiavimas == 4 && s.gal_med < 5);
+            return (nr_rikiavimas == 3 && s.gal_vid() < 5) || (nr_rikiavimas == 4 && s.gal_med() < 5);
         });
         auto failo3_sort_pabaiga = std::chrono::high_resolution_clock::now();
         auto failo3_sort_trukme = std::chrono::duration_cast<std::chrono::duration<double>>(failo3_sort_pabaiga - failo3_sort_pradzia);
@@ -302,7 +332,7 @@ void list_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_r
         {
             for (auto it = grupe.begin(); it != grupe.end(); ++it)
             {
-                if ((nr_rikiavimas == 3 && it->gal_vid < 5) || (nr_rikiavimas == 4 && it->gal_med < 5))
+                if ((nr_rikiavimas == 3 && it->gal_vid() < 5) || (nr_rikiavimas == 4 && it->gal_med() < 5))
                     nelaimingi.push_back(*it);
                 else
                     galvociai.push_back(*it);
@@ -312,7 +342,7 @@ void list_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_r
         {
             auto it = grupe.begin();
             while (it != grupe.end() &&
-                ((nr_rikiavimas == 3 && it->gal_vid < 5) || (nr_rikiavimas == 4 && it->gal_med < 5)))
+                ((nr_rikiavimas == 3 && it->gal_vid() < 5) || (nr_rikiavimas == 4 && it->gal_med() < 5)))
             {
                 ++it;
             }
@@ -357,15 +387,19 @@ void nuskaitymas_deque(const string& failo_pavadinimas, deque <studentai>& grupe
     while (getline(in, eilute)) 
     {
         std::istringstream iss(eilute);
-        studentai temp;
-        iss >> temp.vardas >> temp.pavarde;
+        string vardas, pavarde;
+        iss >> vardas >> pavarde;
+        temp.setVardas(vardas);
+        temp.setPavarde(pavarde);
 
-        temp.pazymiai.assign(std::istream_iterator<int>(iss), std::istream_iterator<int>());
-        if (!temp.pazymiai.empty()) {
-            temp.egzam = temp.pazymiai.back();
-            temp.pazymiai.pop_back(); // Remove from the vector
+        temp.setPazymiai(std::istream_iterator<int>(iss), std::istream_iterator<int>());
+        if (!temp.pazymiai().empty()) {
+            temp.setEgzam(temp.pazymiai().back());
+            auto tempPazymiai=temp.pazymiai(); //deklaracija
+            tempPazymiai.pop_back(); // Remove from the vector
+            temp.setPazymiai(tempPazymiai);
         } else {
-            temp.egzam = 0; // Default to 0 if no grades are found
+            temp.setEgzam(0); // Default to 0 if no grades are found
         }
         grupe.push_back(std::move(temp)); // to optimize vector insertion
     }
@@ -378,8 +412,8 @@ void skaiciavimas_deque(deque <studentai> &grupe, int n)
         m.suma=sumos_skaiciavimas(m.pazymiai, m);
         m.vidurkis=vidurkio_skaiciavimas(m.pazymiai, m);
         m.mediana=mediana_skaiciavimas(m.pazymiai, m);
-        m.gal_vid=galutinis_vid_sk(m, m.vidurkis);
-        m.gal_med=galutinis_med_sk(m, m.mediana);
+        m.gal_vid()=galutinis_vid_sk(m, m.vidurkis);
+        m.gal_med()=galutinis_med_sk(m, m.mediana);
     }
 }
 void spausdinimas_faile_deque(deque <studentai> grupe, const string& outputo_pavadinimas, int nr_rikiavimas)
@@ -392,8 +426,8 @@ void spausdinimas_faile_deque(deque <studentai> grupe, const string& outputo_pav
     });
     for (const auto&m:grupe) //visi elementai is eiles is grupes; const, kad nesikopijuot7
     {
-        out << std::left << setw(25) << m.pavarde << setw(20) << m.vardas;
-        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid << setw(20) << m.gal_med << endl;
+        out << std::left << setw(25) << m.pavarde() << setw(20) << m.vardas();
+        out << setw(20) << std::fixed << std::setprecision(2) << m.gal_vid() << setw(20) << m.gal_med() << endl;
         //for(const auto&n:m.pazymiai) cout << n << " "               //cout << endl;
     }
 }
@@ -411,7 +445,7 @@ void deque_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_
     {
         auto failo3_sort_pradzia=std::chrono::high_resolution_clock::now();
         auto perskyrimas = std::stable_partition(grupe.begin(), grupe.end(), [&](const studentai& s) {
-            return (nr_rikiavimas == 3 && s.gal_vid < 5) || (nr_rikiavimas == 4 && s.gal_med < 5);
+            return (nr_rikiavimas == 3 && s.gal_vid() < 5) || (nr_rikiavimas == 4 && s.gal_med() < 5);
         });
         auto failo3_sort_pabaiga = std::chrono::high_resolution_clock::now();
         auto failo3_sort_trukme = std::chrono::duration_cast<std::chrono::duration<double>>(failo3_sort_pabaiga - failo3_sort_pradzia);
@@ -441,7 +475,7 @@ void deque_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_
         {
             for (auto it = grupe.begin(); it != grupe.end(); ++it)
             {
-                if ((nr_rikiavimas == 3 && it->gal_vid < 5) || (nr_rikiavimas == 4 && it->gal_med < 5))
+                if ((nr_rikiavimas == 3 && it->gal_vid() < 5) || (nr_rikiavimas == 4 && it->gal_med() < 5))
                     nelaimingi.push_back(*it);
                 else
                     galvociai.push_back(*it);
@@ -451,7 +485,7 @@ void deque_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_
         {
             auto it = grupe.begin();
             while (it != grupe.end() &&
-                ((nr_rikiavimas == 3 && it->gal_vid < 5) || (nr_rikiavimas == 4 && it->gal_med < 5)))
+                ((nr_rikiavimas == 3 && it->gal_vid() < 5) || (nr_rikiavimas == 4 && it->gal_med() < 5)))
             {
                 ++it;
             }
@@ -483,6 +517,7 @@ int main()
         cout << "5 - nuskaityti duomenis iš failo, 6 - failų generatorius;" << endl;
         cout <<  "7 - testavimas su vector \n8 - testavimas su list \n9 - testavimas su deque" << endl;
         cout << "10 - testavimas su visais konteineriais" << endl;
+        string vardas, pavarde;
         int nr_meniu;
         cin >> nr_meniu;
         vartotojo_pasirinkimas(nr_meniu, 1, 10);
@@ -656,12 +691,16 @@ int main()
             {
                 studentai temp;
                 cout << "Įveskite studento vardą ir pavardę" << endl;
-                cin >> temp.vardas >> temp.pavarde;
-                while (temp.vardas.size()>19 || temp.pavarde.size()>19)
+                cin >> vardas >> pavarde;
+                temp.setVardas(vardas);
+                temp.setPavarde(pavarde);
+                while (temp.vardas().size()>19 || temp.pavarde().size()>19)
                 {
                     cout << "Vardas arba pavardė per ilgi" << endl;
                     cout << "Įveskite studento vardą ir pavardę" << endl;
-                    cin >> temp.vardas >> temp.pavarde;
+                    cin >> vardas >> pavarde;
+                    temp.setVardas(vardas);
+                    temp.setPavarde(pavarde);
                 }
                 /*
                 cout << "Įveskite studento namų darbų kiekį (nuo 1 iki 15)" << endl;
@@ -676,16 +715,18 @@ int main()
                 for (int y=0; y<n; y++)
                 {
                     paz=rand_pazymys();
-                    temp.suma+=paz;
-                    temp.pazymiai.push_back(paz);
+                    temp.setSuma(temp.suma()+paz);
+                    temp.pazymiai().push_back(paz);
                 }
                 temp.vidurkis=temp.suma/n;
                 
                 temp.mediana=mediana_skaiciavimas(temp.pazymiai, temp);
 
-                temp.egzam=rand_pazymys();
-                temp.gal_vid=0.4*temp.vidurkis+0.6*temp.egzam;
-                temp.gal_med=0.4*temp.mediana+0.6*temp.egzam;
+                temp.setEgzam(rand_pazymys());
+                /*
+                temp.setGalVid(0.4 * temp.vidurkis() + 0.6 * temp.egzam()); 
+                temp.setGalMed(0.4 * temp.mediana() + 0.6 * temp.egzam());
+                */
                 grupe.push_back(temp);
                 m++;
                 cout << "Ar norite įvesti naujo studento duomenis? (T/n)" << endl;
@@ -708,24 +749,26 @@ int main()
                 studentai temp;
 
             ////////////////////////
-                temp.vardas=vardo_generavimas();
-                temp.pavarde=pavardes_generavimas();
+                temp.setVardas(vardo_generavimas());
+                temp.setPavarde(pavardes_generavimas());
             ////////////////////////
 
                 n=rand()%15+1;
                 for (int y=0; y<n; y++)
                 {
                     paz=rand_pazymys();
-                    temp.suma+=paz;
-                    temp.pazymiai.push_back(paz);
+                    temp.setSuma(temp.suma()+paz);
+                    temp.pazymiai().push_back(paz);
                 }
-                temp.vidurkis=temp.suma/n;
+                temp.setVidurkis(temp.suma()/n);
                 
                 temp.mediana=mediana_skaiciavimas(temp.pazymiai, temp);
 
-                temp.egzam=rand_pazymys();
-                temp.gal_vid=0.4*temp.vidurkis+0.6*temp.egzam;
-                temp.gal_med=0.4*temp.mediana+0.6*temp.egzam_;
+                temp.setEgzam(rand_pazymys());
+                /*
+                temp.setGalVid(0.4 * temp.vidurkis() + 0.6 * temp.egzam()); 
+                temp.setGalMed(0.4 * temp.mediana() + 0.6 * temp.egzam());
+                */
                 grupe.push_back(temp);
                 m++;
                 cout << "Ar norite įvesti naujo studento duomenis? (T/n)" << endl;

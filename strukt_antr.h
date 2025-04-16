@@ -23,7 +23,8 @@ class studentai
     public:
         studentai() : egzam_(0) {} // default konstruktorius
         studentai(std::istream& is);
-        //who dis?
+        //who ?
+
 
         //get'eriai, inline:
         inline string vardas() const {return vardas_;}
@@ -50,6 +51,13 @@ class studentai
         void setGalVid(double gal_vid) {gal_vid_ = gal_vid;}
 
         void addPazymys(double pazymys) {pazymiai_.push_back(pazymys);}
+
+        //destruktorius:
+        ~studentai() {
+            pazymiai_.clear();
+            vardas_.clear();
+            pavarde_.clear();
+        }
 };
 
 // šitus iškelt:

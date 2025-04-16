@@ -611,7 +611,7 @@ int main()
             int nr_failas=1; //default reiksme
             cin >> nr_failas;
             string failo_pavadinimas;
-            if (nr_failas == 1) failo_pavadinimas = "kursiok4ai.txt";
+            if (nr_failas == 1) failo_pavadinimas = "kursiokai.txt";
             else if (nr_failas == 2) failo_pavadinimas = "studentai10000.txt";
             else if (nr_failas == 3) failo_pavadinimas = "studentai100000.txt";
             else if (nr_failas == 4) failo_pavadinimas = "studentai1000000.txt";

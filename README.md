@@ -7,7 +7,7 @@
 
 atitinkamas testavimas ir tie patys rezultatai
 ### Tyrimas: rule of five ir i/o operatoriai
-![Image](https://github.com/user-attachments/assets/a6ce53b6-13c5-435a-96c6-867422c67c3d)
+![Image](https://github.com/user-attachments/assets/9e2e240d-c455-4cc3-985c-0b07fd313c8f)
 
 ### Tyrimas: lyginama struct (ankstesnė) ir class (dabartinė) realizacijų sparta
 

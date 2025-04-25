@@ -606,7 +606,7 @@ int main()
             string failo_pavadinimas;
             ///////////////
             /////////
-            int kiek_failu=5;
+            int kiek_failu=3;
             /////////
             ///////////////
             for (int i=0; i<kiek_failu; i++)

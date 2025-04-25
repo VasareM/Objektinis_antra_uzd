@@ -26,11 +26,11 @@ class studentai
         studentai(std::istream& is);  //dis: konstruktorius, realiai inicializacijai
 
         studentai(const studentai& v); //copy konstruktorius
-        studentai(studentai&& v); //move konstruktorius
+        studentai(studentai&& v) noexcept; //move konstruktorius
         studentai(std::initializer_list<double> il); // perduodamas double sarasas
         //kas cia?
         studentai& operator=(const studentai& v); // priskyrimo kopijavimo operatorius
-        studentai& operator=(studentai&& v); // priskyrimo move operatorius
+        studentai& operator=(studentai&& v) noexcept; // priskyrimo move operatorius
 
 
         //get'eriai, inline:
@@ -73,7 +73,7 @@ class studentai
             pazymiai_.clear();
             vardas_.clear();
             pavarde_.clear();
-            cout << "Destruktorius įvykdytas" << endl;
+            //std::cout << "Destruktorius įvykdytas" << std::endl;
         }
 };
 

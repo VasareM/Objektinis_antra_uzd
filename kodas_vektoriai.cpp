@@ -793,6 +793,9 @@ int main()
             cout << "Testavimas baigtas" << endl;
             return 0;
         }
+       ////////
+       ///////
+       
         base
         derived
 

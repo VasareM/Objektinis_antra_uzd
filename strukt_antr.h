@@ -59,11 +59,21 @@ class studentai
 
         void addPazymys(double pazymys) {pazymiai_.push_back(pazymys);}
 
+
+        //perdengti operatoriai
+        /*
+        friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
+        friend std::istream& operator>>(std::istream& is, Studentas& s);
+
+        */
+
+
         //destruktorius:
         ~studentai() {
             pazymiai_.clear();
             vardas_.clear();
             pavarde_.clear();
+            cout << "Destruktorius įvykdytas" << endl;
         }
 };
 

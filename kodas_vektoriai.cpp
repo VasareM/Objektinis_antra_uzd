@@ -33,13 +33,73 @@ using std::deque;
 studentai::studentai(std::istream& is) {
     readStudent(is);
 }
+//copy constructor 
+//manau reikės pakeisti pagal situaciją
+studentai::studentai(const studentai& v) 
+    : vardas_(v.vardas_), pavarde_(v.pavarde_), egzam_(v.egzam_), pazymiai_(v.pazymiai_),
+    suma_(v.suma_), vidurkis_(v.vidurkis_), mediana_(v.mediana_), gal_med_(v.gal_med_), gal_vid_(v.gal_vid_) 
+    {
+}
+//move constructor
+studentai::studentai(studentai&& v)noexcept
+    : vardas_(std::move(v.vardas_)), pavarde_(std::move(v.pavarde_)), egzam_(v.egzam_), pazymiai_(std::move(v.pazymiai_)),
+    suma_(v.suma_), vidurkis_(v.vidurkis_), mediana_(v.mediana_), gal_med_(v.gal_med_), gal_vid_(v.gal_vid_) 
+    {
+    // resetinama
+    v.egzam_ = 0;
+    v.suma_ = 0;
+    v.vidurkis_ = 0;
+    v.mediana_ = 0;
+    v.gal_med_ = 0;
+    v.gal_vid_ = 0;
+}
 
 studentai::studentai(std::initializer_list<double> il) {
     pazymiai_ = il;
 }
-
-// Getter for gal_vid
-
+//copy assignment operator
+studentai& studentai::operator=(const studentai& v)
+{
+    if (&v != this) // check for self-assignment
+    {
+        vardas_ = v.vardas_;
+        pavarde_ = v.pavarde_;
+        egzam_ = v.egzam_;
+        pazymiai_ = v.pazymiai_;
+        suma_ = v.suma_;
+        vidurkis_ = v.vidurkis_;
+        mediana_ = v.mediana_;
+        gal_med_ = v.gal_med_;
+        gal_vid_ = v.gal_vid_;
+    }
+    return *this;
+}
+//move assignment operator
+studentai& studentai::operator=(studentai&& v) noexcept
+{
+    if (&v != this) // check for self-assignment
+    {
+        vardas_ = std::move(v.vardas_);
+        pavarde_ = std::move(v.pavarde_);
+        egzam_ = v.egzam_;
+        pazymiai_ = std::move(v.pazymiai_);
+        suma_ = v.suma_;
+        vidurkis_ = v.vidurkis_;
+        mediana_ = v.mediana_;
+        gal_med_ = v.gal_med_;
+        gal_vid_ = v.gal_vid_;
+        
+        // resettinama
+        v.egzam_ = 0;
+        v.suma_ = 0;
+        v.vidurkis_ = 0;
+        v.mediana_ = 0;
+        v.gal_med_ = 0;
+        v.gal_vid_ = 0;
+    }
+    return *this;
+}
+// noexcept - nemeta exception'ų, kai transferinami duomenys
 
 //studentai::gal_balas realizacija
 double studentai::gal_med() const 

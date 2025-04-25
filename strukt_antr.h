@@ -64,11 +64,6 @@ class studentai
         //  i/o operatoriai friend tipo
         friend std::istream& operator>>(std::istream& is, studentai& v);
         friend std::ostream& operator<<(std::ostream& os, const studentai& v);
-        /*
-        friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
-        
-
-        */
 
 
         //destruktorius:

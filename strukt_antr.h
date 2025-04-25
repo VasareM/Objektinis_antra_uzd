@@ -80,7 +80,7 @@ class studentai
         }
 };
 
-// šitus iškelt:
+
 //bool compare(const studentai&, const studentai&);
 /*
 bool comparePagalPavarde(const studentai&, const studentai&);

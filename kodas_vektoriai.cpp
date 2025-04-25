@@ -101,6 +101,42 @@ studentai& studentai::operator=(studentai&& v) noexcept
 }
 // noexcept - nemeta exception'ų, kai transferinami duomenys
 
+// input operator
+std::istream& operator>>(std::istream& is, studentai& v)
+{
+    std::string line;
+    if (!std::getline(is, line)) 
+    {
+        return is;
+    }
+    std::istringstream iss(line);
+    v.pazymiai_.clear();
+    iss >> v.vardas_ >> v.pavarde_;
+    double paz_laik;
+    while (iss >> paz_laik)
+    {
+        v.pazymiai_.push_back(paz_laik);
+    }
+    if (!v.pazymiai_.empty()) 
+    {
+        v.egzam_=v.pazymiai_.back();
+        v.pazymiai_.pop_back();
+    }
+    else
+    {
+        v.egzam_=0;
+    }
+    return is;
+}
+//output operator
+std::ostream& operator<<(std::ostream& os, const studentai& v)
+{
+    os << std::left << setw(25) << v.pavarde() << setw(20) << v.vardas();
+    os << setw(20) << std::fixed << std::setprecision(2) << v.gal_vid() << setw(20) << v.gal_med() << endl;
+    return os;
+}
+
+
 //studentai::gal_balas realizacija
 double studentai::gal_med() const 
 {

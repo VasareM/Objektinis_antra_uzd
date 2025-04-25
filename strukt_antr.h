@@ -61,9 +61,15 @@ class studentai
 
 
         //perdengti operatoriai
+        //  i/o operatoriai friend tipo
+        friend std::istream& operator>>(std::istream& is, studentai& s);
+        friend std::ostream& operator<<(std::ostream& out, const studentai& s)
+        {
+
+        }
         /*
         friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
-        friend std::istream& operator>>(std::istream& is, Studentas& s);
+        
 
         */
 

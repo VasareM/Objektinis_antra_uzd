@@ -793,6 +793,11 @@ int main()
             cout << "Testavimas baigtas" << endl;
             return 0;
         }
+        base
+        derived
+
+    ////
+
         cout << "Kaip išrikiuoti studentus? Pagal... \n 1 - vardą, 2 - pavardę, 3 - galutinį pažymį pagal vidurkį, 4 - galutinį pažymį pagal medianą" << endl;
         int nr_rikiavimas;
         cin >> nr_rikiavimas;

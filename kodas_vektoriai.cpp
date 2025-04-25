@@ -15,6 +15,7 @@
 #include <chrono>
 #include <list>
 #include <deque>
+#include <cassert>
 
 
 using std::cout;
@@ -112,6 +113,7 @@ std::istream& operator>>(std::istream& is, studentai& v)
     std::istringstream iss(line);
     v.pazymiai_.clear();
     iss >> v.vardas_ >> v.pavarde_;
+    //std::cout << "Parsed vardas: " << v.vardas_ << ", pavarde: " << v.pavarde_ << std::endl;
     double paz_laik;
     while (iss >> paz_laik)
     {
@@ -126,6 +128,13 @@ std::istream& operator>>(std::istream& is, studentai& v)
     {
         v.egzam_=0;
     }
+    /*
+    std::cout << "Parsed pazymiai: ";
+    for (const auto& paz : v.pazymiai_) {
+        std::cout << paz << " ";
+    }
+    std::cout << "\nEgzam: " << v.egzam_ << std::endl;
+    */
     return is;
 }
 //output operator
@@ -595,10 +604,11 @@ int main()
         cout << "5 - nuskaityti duomenis iš failo, 6 - failų generatorius;" << endl;
         cout <<  "7 - testavimas su vector \n8 - testavimas su list \n9 - testavimas su deque" << endl;
         cout << "10 - testavimas su visais konteineriais" << endl;
+        cout << "11 - testavimas su rule of five ir i/o operatoriais" << endl;
         string vardas, pavarde;
         int nr_meniu;
         cin >> nr_meniu;
-        vartotojo_pasirinkimas(nr_meniu, 1, 10);
+        vartotojo_pasirinkimas(nr_meniu, 1, 11);
         if (nr_meniu==4)
         {
             cout << "Darbas baigtas" << endl;
@@ -693,7 +703,96 @@ int main()
 
             return 0;
         }
+        if (nr_meniu==11)
+        {
+            cout << endl << "Testuojami rule of five ir i/o operatoriai" << endl << endl;
+            studentai s1;
+            
+            //čia gal --
+            cout << "Default konstruktoriaus testas: \n" << s1 << endl;
+            
+            // output operator test to console
+            cout << "Išvedimo operatoriaus testas į ekraną: \n" << s1 << endl;
+            
+            // manual input operator
+            
+            cout << "Įveskite studento vardą, pavardę, pažymius, egzamino balą: \n" << endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            cin >> s1;
+            if (!(cin >> s1)) {
+                std::cerr << "Nuskaitymas nepavyko" << endl;
+            }
+            else cout << "Rankiniu būdu įvesti duomenys: \n" << s1 << endl;
+            
+            /*
+            // automatic input operator
+            std::stringstream ss;
+            ss << "Jonas Jonaitis 8 9 10 7";
+            studentai s9;
+            ss >> s9;
+            std::stringstream output;
+            output << s9;
+            std::string expected = "Jonaitis               Jonas               9.00                9.00";
+            assert(output.str().find(expected) != std::string::npos);
+            cout << "Automatinio įvedimo operatoriaus testas: \n" << s9 << endl;
+            */
 
+            // copy constructor
+            studentai s2(s1);
+            cout << "Copy konstruktoriaus testas: \n" << s2 << endl;
+            
+            // move constructor
+            studentai s3(std::move(s1));
+            cout << "Move konstruktoriaus testas: \n" << s3 << endl;
+            
+            // copy assignment operator
+            studentai s4;
+            s4=s1;
+            cout << "Copy priskyrimo operatoriaus testas: \n" << s4 << endl;
+            
+            // move assignment operator
+            studentai s5;
+            s5=std::move(s1);
+            cout << "Move priskyrimo operatoriaus testas: \n" << s5 << endl;
+            
+            // input operator test from file
+            ifstream in("kursiokai.txt");
+            studentai s6;
+            if (in.is_open())
+            {
+                
+                in >> s6;
+                cout << "Failo įvedimo operatoriaus testas: \n" << s6 << endl;
+                in.close();
+            }
+            else 
+            {
+                cout << "Nepavyko atidaryti failo" << endl;
+                return 0;
+            }
+            
+            // output operator test to file
+            ofstream out("kursiokai_out_test.txt");
+            if (out.is_open())
+            {
+                out << s6;
+                cout << "Failo išvedimo operatoriaus testas --> duomenys faile *kursiokai_out_test.txt*" << endl;
+                out.close();
+            }
+            else 
+            {
+                cout << "Nepavyko atidaryti failo" << endl;
+                return 0;
+            }
+            // destructor test
+            studentai s7; //sukuriami ir sunaikinami i6 karto
+            cout << "Destruktoriaus testas: sukuriami objektai iš karto sunaikinami" << endl;
+            
+
+            cout << "Testavimas baigtas" << endl;
+            return 0;
+        }
         cout << "Kaip išrikiuoti studentus? Pagal... \n 1 - vardą, 2 - pavardę, 3 - galutinį pažymį pagal vidurkį, 4 - galutinį pažymį pagal medianą" << endl;
         int nr_rikiavimas;
         cin >> nr_rikiavimas;

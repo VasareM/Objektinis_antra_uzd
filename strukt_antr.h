@@ -62,11 +62,8 @@ class studentai
 
         //perdengti operatoriai
         //  i/o operatoriai friend tipo
-        friend std::istream& operator>>(std::istream& is, studentai& s);
-        friend std::ostream& operator<<(std::ostream& out, const studentai& s)
-        {
-
-        }
+        friend std::istream& operator>>(std::istream& is, studentai& v);
+        friend std::ostream& operator<<(std::ostream& os, const studentai& v);
         /*
         friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
         
@@ -79,7 +76,7 @@ class studentai
             pazymiai_.clear();
             vardas_.clear();
             pavarde_.clear();
-            //std::cout << "Destruktorius įvykdytas" << std::endl;
+            std::cout << "Destruktorius įvykdytas" << std::endl;
         }
 };
 

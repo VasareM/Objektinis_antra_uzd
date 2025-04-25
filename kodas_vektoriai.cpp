@@ -34,6 +34,10 @@ studentai::studentai(std::istream& is) {
     readStudent(is);
 }
 
+studentai::studentai(std::initializer_list<double> il) {
+    pazymiai_ = il;
+}
+
 // Getter for gal_vid
 
 

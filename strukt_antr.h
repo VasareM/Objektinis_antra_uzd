@@ -21,9 +21,17 @@ class studentai
         int mediana_=0;
         double gal_med_ = 0, gal_vid_=0;
     public:
+        //konstruktoriai:
         studentai() : egzam_(0) {} // default konstruktorius
-        studentai(std::istream& is);
-        //who dis?
+        studentai(std::istream& is);  //dis: konstruktorius, realiai inicializacijai
+
+        studentai(const studentai& v); //copy konstruktorius
+        studentai(studentai&& v); //move konstruktorius
+        studentai(std::initializer_list<double> il); // perduodamas double sarasas
+        //kas cia?
+        studentai& operator=(const studentai& v); // priskyrimo kopijavimo operatorius
+        studentai& operator=(studentai&& v); // priskyrimo move operatorius
+
 
         //get'eriai, inline:
         inline string vardas() const {return vardas_;}

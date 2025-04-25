@@ -3,6 +3,9 @@
 |-------------------|-------|-------------|
 | i5-1240P 1.70 GHz | 16 GB | SSD 512 GB  |
 
+
+
+atitinkamas testavimas ir tie patys rezultatai
 ### Tyrimas: rule of five ir i/o operatoriai
 ![Image](https://github.com/user-attachments/assets/a6ce53b6-13c5-435a-96c6-867422c67c3d)
 

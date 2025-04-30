@@ -47,17 +47,20 @@ studentai::studentai(studentai&& v)noexcept
     suma_(v.suma_), vidurkis_(v.vidurkis_), mediana_(v.mediana_), gal_med_(v.gal_med_), gal_vid_(v.gal_vid_) 
     {
     // resetinama
+    /*
     v.egzam_ = 0;
     v.suma_ = 0;
     v.vidurkis_ = 0;
     v.mediana_ = 0;
     v.gal_med_ = 0;
     v.gal_vid_ = 0;
+    */
 }
-
+/*
 studentai::studentai(std::initializer_list<double> il) {
     pazymiai_ = il;
 }
+    */
 //copy assignment operator
 studentai& studentai::operator=(const studentai& v)
 {
@@ -67,11 +70,20 @@ studentai& studentai::operator=(const studentai& v)
         pavarde_ = v.pavarde_;
         egzam_ = v.egzam_;
         pazymiai_ = v.pazymiai_;
+        /*
+        suma_ = suma();
+        vidurkis_ = vidurkis();
+        mediana_ = mediana();
+        gal_med_ = gal_med();
+        gal_vid_ = gal_vid();
+        */
+        
         suma_ = v.suma_;
         vidurkis_ = v.vidurkis_;
         mediana_ = v.mediana_;
         gal_med_ = v.gal_med_;
         gal_vid_ = v.gal_vid_;
+        
     }
     return *this;
 }
@@ -84,19 +96,29 @@ studentai& studentai::operator=(studentai&& v) noexcept
         pavarde_ = std::move(v.pavarde_);
         egzam_ = v.egzam_;
         pazymiai_ = std::move(v.pazymiai_);
+        /*
+        suma_ = suma();
+        vidurkis_ = vidurkis();
+        mediana_ = mediana();
+        gal_med_ = gal_med();
+        gal_vid_ = gal_vid_;
+        */
         suma_ = v.suma_;
         vidurkis_ = v.vidurkis_;
         mediana_ = v.mediana_;
         gal_med_ = v.gal_med_;
         gal_vid_ = v.gal_vid_;
         
+        
         // resettinama
+        /*
         v.egzam_ = 0;
         v.suma_ = 0;
         v.vidurkis_ = 0;
         v.mediana_ = 0;
         v.gal_med_ = 0;
         v.gal_vid_ = 0;
+        */
     }
     return *this;
 }
@@ -135,6 +157,11 @@ std::istream& operator>>(std::istream& is, studentai& v)
     }
     std::cout << "\nEgzam: " << v.egzam_ << std::endl;
     */
+   //skaičiavimai:
+    v.vidurkis_ = v.vidurkis();
+    v.mediana_ = v.mediana();
+    v.gal_vid_ = v.gal_vid();
+    v.gal_med_ = v.gal_med();
     return is;
 }
 //output operator
@@ -719,7 +746,7 @@ int main()
             cout << "Įveskite studento vardą, pavardę, pažymius, egzamino balą: \n" << endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            cin >> s1;
+            //cin >> s1;
             if (!(cin >> s1)) {
                 std::cerr << "Nuskaitymas nepavyko" << endl;
             }

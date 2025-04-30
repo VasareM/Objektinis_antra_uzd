@@ -119,6 +119,7 @@ studentai& studentai::operator=(studentai&& v) noexcept
         v.gal_med_ = 0;
         v.gal_vid_ = 0;
         */
+       return *this;
     }
     return *this;
 }

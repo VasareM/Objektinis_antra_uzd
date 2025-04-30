@@ -8,7 +8,28 @@
 using std::vector;
 using std::string;
 
+class Zmogus
+{
+    protected:
+        string vardas_;
+        string pavarde_;
+    public:
+        Zmogus(string v="", string p="") : vardas_{v}, pavarde_{p} {std:: cout << "Zmogaus konstruktorius \n";} // default konstruktorius
+        virtual string vardas() const { return vardas_; }
+        virtual string pavarde() const { return pavarde_; }
 
+        virtual void displayInfo() const = 0; // Pure virtual = abstract class
+        virtual ~Zmogus() {
+            vardas_.clear();
+            pavarde_.clear();
+            std::cout << "Destruktorius Zmogus įvykdytas" << std::endl;
+        }
+};
+
+
+
+
+/*
 class studentai
 {
     private:
@@ -74,6 +95,7 @@ class studentai
             std::cout << "Destruktorius įvykdytas" << std::endl;
         }
 };
+*/
 
 
 //bool compare(const studentai&, const studentai&);

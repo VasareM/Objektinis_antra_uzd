@@ -47,14 +47,13 @@ studentai::studentai(studentai&& v)noexcept
     suma_(v.suma_), vidurkis_(v.vidurkis_), mediana_(v.mediana_), gal_med_(v.gal_med_), gal_vid_(v.gal_vid_) 
     {
     // resetinama
-    /*
     v.egzam_ = 0;
     v.suma_ = 0;
     v.vidurkis_ = 0;
     v.mediana_ = 0;
     v.gal_med_ = 0;
     v.gal_vid_ = 0;
-    */
+    
 }
 /*
 studentai::studentai(std::initializer_list<double> il) {
@@ -70,13 +69,6 @@ studentai& studentai::operator=(const studentai& v)
         pavarde_ = v.pavarde_;
         egzam_ = v.egzam_;
         pazymiai_ = v.pazymiai_;
-        /*
-        suma_ = suma();
-        vidurkis_ = vidurkis();
-        mediana_ = mediana();
-        gal_med_ = gal_med();
-        gal_vid_ = gal_vid();
-        */
         
         suma_ = v.suma_;
         vidurkis_ = v.vidurkis_;
@@ -96,13 +88,7 @@ studentai& studentai::operator=(studentai&& v) noexcept
         pavarde_ = std::move(v.pavarde_);
         egzam_ = v.egzam_;
         pazymiai_ = std::move(v.pazymiai_);
-        /*
-        suma_ = suma();
-        vidurkis_ = vidurkis();
-        mediana_ = mediana();
-        gal_med_ = gal_med();
-        gal_vid_ = gal_vid_;
-        */
+
         suma_ = v.suma_;
         vidurkis_ = v.vidurkis_;
         mediana_ = v.mediana_;
@@ -111,14 +97,13 @@ studentai& studentai::operator=(studentai&& v) noexcept
         
         
         // resettinama
-        /*
         v.egzam_ = 0;
         v.suma_ = 0;
         v.vidurkis_ = 0;
         v.mediana_ = 0;
         v.gal_med_ = 0;
         v.gal_vid_ = 0;
-        */
+        
        return *this;
     }
     return *this;
@@ -168,8 +153,8 @@ std::istream& operator>>(std::istream& is, studentai& v)
 //output operator
 std::ostream& operator<<(std::ostream& os, const studentai& v)
 {
-    os << std::left << setw(25) << v.pavarde() << setw(20) << v.vardas();
-    os << setw(20) << std::fixed << std::setprecision(2) << v.gal_vid() << setw(20) << v.gal_med() << endl;
+    os << std::left << setw(25) << v.pavarde_ << setw(20) << v.vardas_;
+    os << setw(20) << std::fixed << std::setprecision(2) << v.gal_vid_ << setw(20) << v.gal_med_ << endl;
     return os;
 }
 
@@ -225,6 +210,13 @@ std::istream& studentai::readStudent(std::istream& is)
     {
         egzam_=0;
     }
+    //skaičiavimai:
+    
+    vidurkis_ = vidurkis();
+    mediana_ = mediana();
+    gal_vid_ = gal_vid();
+    gal_med_ = gal_med();
+    
     return is;
 }
 /*
@@ -771,25 +763,42 @@ int main()
             cout << "Copy konstruktoriaus testas: \n" << s2 << endl;
             
             // move constructor
+            cout << "Įveskite studento vardą, pavardę, pažymius, egzamino balą: \n" << endl;
+            if (!(cin >> s1)) {
+                std::cerr << "Nuskaitymas nepavyko" << endl;
+            }
+            else cout << "Rankiniu būdu įvesti duomenys (s1): \n" << s1 << endl;
             studentai s3(std::move(s1));
-            cout << "Move konstruktoriaus testas: \n" << s3 << endl;
-            
+            cout << "Move konstruktoriaus testas (s3): \n" << s3 << endl;
+            cout << "Move konstruktoriaus testas (s1): \n" << s1 << endl;
+
             // copy assignment operator
+            cout << "Įveskite studento vardą, pavardę, pažymius, egzamino balą: \n" << endl;
+            if (!(cin >> s1)) {
+                std::cerr << "Nuskaitymas nepavyko" << endl;
+            }
+            else cout << "Rankiniu būdu įvesti duomenys (s1): \n" << s1 << endl;
             studentai s4;
             s4=s1;
             cout << "Copy priskyrimo operatoriaus testas: \n" << s4 << endl;
             
             // move assignment operator
+            cout << "Įveskite studento vardą, pavardę, pažymius, egzamino balą: \n" << endl;
+            if (!(cin >> s1)) {
+                std::cerr << "Nuskaitymas nepavyko" << endl;
+            }
+            else cout << "Rankiniu būdu įvesti duomenys (s1): \n" << s1 << endl;
             studentai s5;
             s5=std::move(s1);
-            cout << "Move priskyrimo operatoriaus testas: \n" << s5 << endl;
+            cout << "Move priskyrimo operatoriaus testas (s5): \n" << s5 << endl;
+            cout << "Move priskyrimo operatoriaus testas (s1): \n" << s1 << endl;
+
             
             // input operator test from file
-            ifstream in("kursiokai.txt");
+            ifstream in("kursiokai copy.txt");
             studentai s6;
             if (in.is_open())
             {
-                
                 in >> s6;
                 cout << "Failo įvedimo operatoriaus testas: \n" << s6 << endl;
                 in.close();

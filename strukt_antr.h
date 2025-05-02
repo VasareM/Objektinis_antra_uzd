@@ -27,7 +27,7 @@ class studentai
 
         studentai(const studentai& v); //copy konstruktorius
         studentai(studentai&& v) noexcept; //move konstruktorius
-        studentai(std::initializer_list<double> il); // perduodamas double sarasas
+        //studentai(std::initializer_list<double> il); // perduodamas double sarasas
         //kas cia?
         studentai& operator=(const studentai& v); // priskyrimo kopijavimo operatorius
         studentai& operator=(studentai&& v) noexcept; // priskyrimo move operatorius

@@ -4,8 +4,9 @@
 | i5-1240P 1.70 GHz | 16 GB | SSD 512 GB  |
 
 ### Tyrimas: rule of five ir i/o operatoriai
-![Image](https://github.com/user-attachments/assets/93908ed8-a1ae-4b27-90a0-b36ef412de03)
- 
+![Image](https://github.com/user-attachments/assets/3f38cedc-37dc-47ba-b943-1aca260f3860)
+![Image](https://github.com/user-attachments/assets/dcd28cf4-3520-4ae7-b3c5-d16b00de2065)
+
 Programoje naudojami perdengti metodai, priimama duomenų įvestis ir išvestis įvairiais būdais: rankiniu būdu bei iš failo.
 
 Studentų klasė saugo studento vardą, pavardę, pažymius, tarpinius ir galutinius rezultatus (su vidurkiu ir mediana).

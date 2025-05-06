@@ -30,73 +30,6 @@ using std::sort;
 using std::list;
 using std::deque;
 
-//isvestine klase
-class studentai: public Zmogus
-{
-    private:
-        double egzam_;
-        vector <double> pazymiai_;
-        double suma_=0;
-        double vidurkis_=0;
-        int mediana_=0;
-        double gal_med_ = 0, gal_vid_=0;
-    public:
-        //konstruktoriai:
-        studentai() : Zmogus(), egzam_(0) {} // default konstruktorius
-        studentai(std::istream& is);  //dis: konstruktorius, realiai inicializacijai
-
-        studentai(const studentai& v); //copy konstruktorius
-        studentai(studentai&& v) noexcept; //move konstruktorius
-        //studentai(std::initializer_list<double> il); // perduodamas double sarasas
-        //kas cia?
-        studentai& operator=(const studentai& v); // priskyrimo kopijavimo operatorius
-        studentai& operator=(studentai&& v) noexcept; // priskyrimo move operatorius
-
-        void displayInfo() const override {
-            std::cout << "Studentas: " << vardas_ << " " << pavarde_ << std::endl;
-        }
-        // this 
-
-        //get'eriai
-        //string vardas() const {return vardas_;}
-        //string pavarde() const {return pavarde_;}
-        double egzam() const { return egzam_; }
-        const vector<double>& pazymiai() const { return pazymiai_; }
-        double suma() const {return suma_;}
-        double vidurkis() const;
-        int mediana() const;
-        double gal_med() const;
-        double gal_vid() const;
-
-        std::istream& readStudent(std::istream&);
-        //set'eriai
-        void setEgzam(double egzam) {egzam_ = egzam;}
-        void setPazymiai(const vector<double>& pazymiai) {pazymiai_ = pazymiai;}
-        
-        void setSuma(double suma) {suma_ = suma;}
-        void setVidurkis(double vidurkis) {vidurkis_ = vidurkis;}
-        void setMediana(int mediana) {mediana_ = mediana;}
-        void setGalMed(double gal_med) {gal_med_ = gal_med;}
-        void setGalVid(double gal_vid) {gal_vid_ = gal_vid;}
-
-        void addPazymys(double pazymys) {pazymiai_.push_back(pazymys);}
-
-
-        //perdengti operatoriai
-        //  i/o operatoriai friend tipo
-        friend std::istream& operator>>(std::istream& is, studentai& v);
-        friend std::ostream& operator<<(std::ostream& os, const studentai& v);
-
-
-        //destruktorius:
-        ~studentai() {
-            pazymiai_.clear();
-            std::cout << "Destruktorius išvestinės studentai įvykdytas" << std::endl;
-        }
-}
-
-
-
 
 //konstruktoriaus realizacija:
 studentai::studentai(std::istream& is) {
@@ -105,13 +38,18 @@ studentai::studentai(std::istream& is) {
 //copy constructor 
 //manau reikės pakeisti pagal situaciją
 studentai::studentai(const studentai& v) 
-    : vardas_(v.vardas_), pavarde_(v.pavarde_), egzam_(v.egzam_), pazymiai_(v.pazymiai_),
+    : Zmogus(v), //base klasės kopijavimas
+    egzam_(v.egzam_), pazymiai_(v.pazymiai_),
     suma_(v.suma_), vidurkis_(v.vidurkis_), mediana_(v.mediana_), gal_med_(v.gal_med_), gal_vid_(v.gal_vid_) 
     {
 }
+
+
+
 //move constructor
 studentai::studentai(studentai&& v)noexcept
-    : vardas_(std::move(v.vardas_)), pavarde_(std::move(v.pavarde_)), egzam_(v.egzam_), pazymiai_(std::move(v.pazymiai_)),
+    : Zmogus(std::move(v)), 
+    egzam_(v.egzam_), pazymiai_(std::move(v.pazymiai_)),
     suma_(v.suma_), vidurkis_(v.vidurkis_), mediana_(v.mediana_), gal_med_(v.gal_med_), gal_vid_(v.gal_vid_) 
     {
     // resetinama
@@ -788,6 +726,10 @@ int main()
         }
         if (nr_meniu==11)
         {
+            // testuojama ar veikia abstrakti Zmogus klasė
+            // Zmogus z("Vardas", "Pavarde");
+            // cout << z << endl;
+            
             cout << endl << "Testuojami rule of five ir i/o operatoriai" << endl << endl;
             studentai s1;
             

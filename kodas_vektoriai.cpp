@@ -799,7 +799,7 @@ int main()
             cout << "Move priskyrimo operatoriaus testas (s1): \n" << s1 << endl;
 
             // input operator test from file
-            ifstream in("kursiokai.txt");
+            ifstream in("kursiokai copy.txt");
             studentai s6;
             if (in.is_open())
             {

@@ -742,8 +742,6 @@ int main()
             // manual input operator
             
             cout << "Įveskite studento vardą, pavardę, pažymius, egzamino balą: \n" << endl;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cin >> s1;
             if (!(cin >> s1)) {
                 std::cerr << "Nuskaitymas nepavyko" << endl;

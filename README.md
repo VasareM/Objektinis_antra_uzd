@@ -4,29 +4,12 @@
 | i5-1240P 1.70 GHz | 16 GB | SSD 512 GB  |
 
 
-
-atitinkamas testavimas ir tie patys rezultatai
 ### Tyrimas: rule of five ir i/o operatoriai
-![Image](https://github.com/user-attachments/assets/9e2e240d-c455-4cc3-985c-0b07fd313c8f)
+Atliekamas testatvimas tų pačių funkcijų kaip ir v1.2, tikrinami operatoriai ir konstruktoriai, gaunamas atitinkamas veikimas ir rezultatai
 
-### Tyrimas: lyginama struct (ankstesnė) ir class (dabartinė) realizacijų sparta
+![Image](https://github.com/user-attachments/assets/3a6c835e-36e2-4ac6-ab0e-c69f35011482)
+![Image](https://github.com/user-attachments/assets/55551e25-1bc8-4643-b10a-78279e170a72)
 
-#### Tyrimo rezultatai: *testuojami anksčiau sugeneruoti failai*
-Legenda:
-- melsvai paryškintas testuojamo failo įrašų kiekis
-
-#### Testuojami paeiliui su 100000, 1000000 eilučių failais, vector konteineris, greičiausia (III) dalijimo strategija
-![Image](https://github.com/user-attachments/assets/e70551f9-c0cd-4d50-b929-c8127ed66096)
-
-### Eksperimentinė analizė su optimizavimo flag'ais:
-
-| Optimizavimo flagai | Laikas, s                |  Laikas, s              | Exe failo dydis  | Laikas, s                |    Laikas, s                      | Exe failo dydis |
-|---------------------|--------------------------|-------------------------|------------------|--------------------------|-------------------------|------------------|
-|                     | Struct Vector (100000)   | Struct Vector (1000000) | Struct           | Class Vector (100000)    | Class Vector (1000000)  | Class            |
-| -                   | 1,19837                  | 11,68054                | 679,20 KB        | 2,98245                  | 54,44549                | 683,40 KB        |
-| O1                  | 1,16368                  | 18,99773                | 391,89 KB        | 1,64756                  | 29,51304                | 398,57 KB        |
-| O2                  | 1,14052                  | 18,33628                | 354,61 KB        | 1,44885                  | 22,47576                | 363,90 KB        |
-| O3                  | 1,13988                  | 15,54820                | 378,84 KB        | 1,58875                  | 27,68669                | 395,59 KB        |
 
 
 ### Instrukcija

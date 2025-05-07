@@ -24,7 +24,7 @@ class Zmogus
         virtual ~Zmogus() {
             vardas_.clear();
             pavarde_.clear();
-            std::cout << "Destruktorius Zmogus įvykdytas" << std::endl;
+            //std::cout << "Destruktorius Zmogus įvykdytas" << std::endl;
         }
 };
 //isvestine klase
@@ -99,7 +99,7 @@ class studentai: public Zmogus
         //destruktorius:
         ~studentai() override {
             pazymiai_.clear();
-            std::cout << "Destruktorius išvestinės studentai įvykdytas" << std::endl;
+            //std::cout << "Destruktorius išvestinės studentai įvykdytas" << std::endl;
         }
         //override - virtualus išvestinės destruktorius
 };

@@ -4,13 +4,9 @@
 | i5-1240P 1.70 GHz | 16 GB | SSD 512 GB  |
 
 
-### Tyrimas: rule of five ir i/o operatoriai
-Atliekamas testatvimas tų pačių funkcijų kaip ir v1.2, tikrinami operatoriai ir konstruktoriai, gaunamas atitinkamas veikimas ir rezultatai
+## v2.0: dokumentacija ir Unit testavimas
 
-![Image](https://github.com/user-attachments/assets/3a6c835e-36e2-4ac6-ab0e-c69f35011482)
-![Image](https://github.com/user-attachments/assets/55551e25-1bc8-4643-b10a-78279e170a72)
-
-
+## Paleidimas
 
 ### Instrukcija
 programą galima paleisti dviem būdais

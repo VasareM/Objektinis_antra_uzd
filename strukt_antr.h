@@ -20,6 +20,18 @@ class Zmogus
         virtual string vardas() const { return vardas_; }
         virtual string pavarde() const { return pavarde_; }
 
+        //copy konstr
+        Zmogus(const Zmogus& other)
+            : vardas_(other.vardas_), pavarde_(other.pavarde_) {
+        }
+        //move konstr
+        Zmogus(Zmogus&& other) noexcept
+            : vardas_(std::move(other.vardas_)),
+            pavarde_(std::move(other.pavarde_)) {
+            // Reset the source object
+            other.vardas_ = "";
+            other.pavarde_ = "";
+        }
         virtual void displayInfo() const = 0; // virtual = abstract class
         virtual ~Zmogus() {
             vardas_.clear();

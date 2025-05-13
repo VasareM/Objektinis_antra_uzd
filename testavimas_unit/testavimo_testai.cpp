@@ -32,6 +32,29 @@ TEST_CASE("Copy konstruktoriaus testas")
     REQUIRE(s2.pazymiai()[2] == 9);
     REQUIRE(s2.egzam() == 8);
 }
+TEST_CASE("Move konstruktoriaus testas")
+{
+    studentai s1;
+    s1.setVardas("Vardenis");
+    s1.setPavarde("Pavardenis");
+    s1.addPazymys(7);
+    s1.addPazymys(5);
+    s1.addPazymys(9);
+    s1.setEgzam(8);
+    studentai s2(std::move(s1));
+    REQUIRE(s2.vardas() == "Vardenis");
+    REQUIRE(s2.pavarde() == "Pavardenis");
+    REQUIRE(s2.pazymiai()[0] == 7);
+    REQUIRE(s2.pazymiai()[1] == 5);
+    REQUIRE(s2.pazymiai()[2] == 9);
+    REQUIRE(s2.egzam() == 8);
+
+    REQUIRE(s1.vardas() == "");
+    REQUIRE(s1.pavarde() == "");
+    REQUIRE(s1.pazymiai().empty());
+    REQUIRE(s1.egzam() == 0);
+    
+}
 TEST_CASE("Input operatoriaus testas >>")
 {
     std::stringstream ss("Vardenis Pavardenis 7 5 9 8");

@@ -616,6 +616,7 @@ void deque_veiksmai(const string& failo_pavadinimas, int nr_failo_dydis, int nr_
     cout << endl << endl;
 }
 
+#ifndef RUN_TESTS
 int main()
 {
     try {
@@ -1007,3 +1008,4 @@ int main()
     }
     return 0;
 }
+#endif

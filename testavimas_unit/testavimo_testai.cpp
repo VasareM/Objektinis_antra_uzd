@@ -96,7 +96,27 @@ TEST_CASE("Move assignment testas")
     REQUIRE(s1.pazymiai().empty());
     REQUIRE(s1.egzam() == 0);
 }
-//destruct
+TEST_CASE("Destruktoriaus testas")
+{
+    {
+        studentai s;
+        s.setVardas("Vardenis");
+        s.setPavarde("Pavardenis");
+        s.addPazymys(7);
+        s.addPazymys(5);
+        s.addPazymys(9);
+        s.setEgzam(8);
+
+        REQUIRE(s.vardas() == "Vardenis");
+        REQUIRE(s.pavarde() == "Pavardenis");
+        REQUIRE(s.pazymiai()[0] == 7);
+        REQUIRE(s.pazymiai()[1] == 5);
+        REQUIRE(s.pazymiai()[2] == 9);
+        REQUIRE(s.egzam() == 8);
+    }
+    REQUIRE(true);
+    // viskas gerai, jei neiškyla klaidų
+}
 TEST_CASE("Input operatoriaus testas >>")
 {
     std::stringstream ss("Vardenis Pavardenis 7 5 9 8");

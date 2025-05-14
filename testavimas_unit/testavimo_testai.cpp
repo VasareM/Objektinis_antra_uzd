@@ -151,3 +151,11 @@ TEST_CASE("Output operatoriaus testas <<")
     
     REQUIRE(out.str() == tikimasi.str());
 }
+TEST_CASE("Mediana testas")
+{
+    studentai s;
+    s.addPazymys(7);
+    s.addPazymys(9);
+    s.addPazymys(5);
+    REQUIRE(s.mediana()==7);
+}
